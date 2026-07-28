@@ -1,14 +1,16 @@
 FROM php:8.1-apache
 
-RUN apt-get update && apt-get install -y libpq-dev
+# 1. Instalar las extensiones necesarias para PDO MySQL
+RUN docker-php-ext-install pdo pdo_mysql
 
-RUN docker-php-ext-install pgsql pdo pdo_pgsql pdo_mysql
-
+# 2. Habilitar mod_rewrite para Apache
 RUN a2enmod rewrite
 
-WORKDIR /var/www/html
-
+# 3. Copiar todo el código del proyecto directamente a la raíz web de Apache
 COPY . /var/www/html/
+
+# 4. Ajustar permisos para que Apache pueda leer los archivos correctamente
+RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 
