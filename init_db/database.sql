@@ -1,6 +1,6 @@
 -- Script de Inicializacion de la Base de Datos: Palacio de Festivales (POS & Facturacion)
-CREATE DATABASE IF NOT EXISTS palacio_festivales CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE palacio_festivales;
+-- El nombre de la base de datos se define en la variable de entorno DB_DATABASE.
+-- Este script crea tablas dentro de la base ya seleccionada.
 
 -- 0. Tabla Usuarios
 CREATE TABLE IF NOT EXISTS usuarios (

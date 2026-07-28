@@ -5,33 +5,41 @@
  * Palacio de Festivales
  */
 
-$host    = '127.0.0.1';
-$db      = 'palacio_festivales';
-$user    = 'root';
-$pass    = '';
-$charset = 'utf8mb4';
+$engine = getenv('DB_ENGINE') ?: 'mysql';
+$host   = getenv('DB_HOST') ?: '127.0.0.1';
+$port   = getenv('DB_PORT') ?: ($engine === 'pgsql' ? '5432' : '3306');
+$db     = getenv('DB_DATABASE') ?: 'palacio_festivales';
+$user   = getenv('DB_USER') ?: ($engine === 'pgsql' ? 'postgres' : 'root');
+$pass   = getenv('DB_PASSWORD') ?: '';
+$charset = $engine === 'pgsql' ? 'utf8' : 'utf8mb4';
 
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
     PDO::ATTR_TIMEOUT            => 5,
-    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
 ];
+
+if ($engine === 'mysql') {
+    $options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci";
+    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+} else {
+    $dsn = "pgsql:host=$host;port=$port;dbname=$db";
+}
 
 try {
     // 1. Intentar conectar directamente a la base de datos
-    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
     $pdo = new PDO($dsn, $user, $pass, $options);
-    $pdo->exec("SET NAMES utf8mb4");
+    if ($engine === 'mysql') {
+        $pdo->exec("SET NAMES utf8mb4");
+    }
 
 } catch (\PDOException $e) {
-    // Si la base de datos no existe (error 1049), intentar crearla
-    if ($e->getCode() == 1049 || strpos($e->getMessage(), 'Unknown database') !== false) {
+    if ($engine === 'mysql' && ($e->getCode() == 1049 || strpos($e->getMessage(), 'Unknown database') !== false)) {
         try {
-            $pdoRoot = new PDO("mysql:host=$host;charset=$charset", $user, $pass, $options);
+            $pdoRoot = new PDO("mysql:host=$host;port=$port;charset=$charset", $user, $pass, $options);
             $pdoRoot->exec("CREATE DATABASE IF NOT EXISTS `$db` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-            $pdo = new PDO("mysql:host=$host;dbname=$db;charset=$charset", $user, $pass, $options);
+            $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=$charset", $user, $pass, $options);
             $pdo->exec("SET NAMES utf8mb4");
         } catch (\PDOException $ex) {
             die("Error crítico al intentar crear la base de datos: " . htmlspecialchars($ex->getMessage(), ENT_QUOTES, 'UTF-8'));
