@@ -459,7 +459,13 @@ function createServer() {
 
     const pathname = decodeURIComponent(url.pathname);
 
-    if (pathname === '/' || pathname === '/index.html') {
+    if (pathname === '/' || pathname === '/index.html' || pathname === '/login' || pathname === '/login.html') {
+      const loginPath = path.join(ROOT_DIR, 'login.html');
+      if (fs.existsSync(loginPath)) {
+        sendFile(res, 200, loginPath);
+        return;
+      }
+
       const htmlPath = path.join(ROOT_DIR, 'index.html');
       if (fs.existsSync(htmlPath)) {
         sendFile(res, 200, htmlPath);
