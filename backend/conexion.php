@@ -5,12 +5,11 @@
  * Palacio de Festivales
  */
 
-$engine = getenv('DB_ENGINE') ?: 'mysql';
-$host   = getenv('DB_HOST') ?: '127.0.0.1';
-$port   = getenv('DB_PORT') ?: ($engine === 'pgsql' ? '5432' : '3306');
-$db     = getenv('DB_DATABASE') ?: 'palacio_festivales';
-$user   = getenv('DB_USER') ?: ($engine === 'pgsql' ? 'postgres' : 'root');
-$pass   = getenv('DB_PASSWORD') ?: '';
+$host   = getenv('DB_HOST') ?: 'sql10.freesqldatabase.com';
+$port   = getenv('DB_PORT') ?: '3306';
+$db     = getenv('DB_DATABASE') ?: 'sql10834032';
+$user   = getenv('DB_USER') ?: 'sql10834032';
+$pass   = getenv('DB_PASSWORD') ?: 'jnVbJklYth';
 $charset = $engine === 'pgsql' ? 'utf8' : 'utf8mb4';
 
 $options = [
