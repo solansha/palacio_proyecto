@@ -1,0 +1,44 @@
+{
+  "actuaciones": [
+    {
+      "id_actuacion": 1,
+      "id_sala": 1,
+      "precio_base": 12000,
+      "titulo": "Concierto de Apertura",
+      "sala_nombre": "Sala Principal"
+    },
+    {
+      "id_actuacion": 2,
+      "id_sala": 2,
+      "precio_base": 18000,
+      "titulo": "Teatro Nocturno",
+      "sala_nombre": "Sala Secundaria"
+    }
+  ],
+  "butacas": [
+    {
+      "id_butaca": 1,
+      "id_sala": 1,
+      "zona_nombre": "Platea",
+      "multiplicador_precio": 1,
+      "fila": "A",
+      "numero": 1
+    },
+    {
+      "id_butaca": 2,
+      "id_sala": 1,
+      "zona_nombre": "Platea",
+      "multiplicador_precio": 1.2,
+      "fila": "A",
+      "numero": 2
+    },
+    {
+      "id_butaca": 3,
+      "id_sala": 2,
+      "zona_nombre": "Balcón",
+      "multiplicador_precio": 1.1,
+      "fila": "B",
+      "numero": 1
+    }
+  ]
+}

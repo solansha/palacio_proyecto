@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "codigo_barras": "ENT-001",
+    "nombre": "Entrada General",
+    "descripcion": "Entrada para concierto",
+    "precio": 12000,
+    "stock": 50
+  },
+  {
+    "id": 2,
+    "codigo_barras": "ENT-002",
+    "nombre": "Entrada VIP",
+    "descripcion": "Entrada preferencial",
+    "precio": 18000,
+    "stock": 30
+  }
+]
