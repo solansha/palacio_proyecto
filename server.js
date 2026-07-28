@@ -70,6 +70,37 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
+function sendHtml(res, statusCode, html) {
+  res.writeHead(statusCode, {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Access-Control-Allow-Origin': '*'
+  });
+  res.end(html);
+}
+
+function sendFile(res, statusCode, filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  const mimeTypes = {
+    '.html': 'text/html; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.js': 'application/javascript; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.svg': 'image/svg+xml',
+    '.ico': 'image/x-icon'
+  };
+
+  const contentType = mimeTypes[ext] || 'application/octet-stream';
+  const content = fs.readFileSync(filePath);
+  res.writeHead(statusCode, {
+    'Content-Type': contentType,
+    'Access-Control-Allow-Origin': '*'
+  });
+  res.end(content);
+}
+
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     let body = '';
@@ -426,11 +457,33 @@ function createServer() {
       return;
     }
 
-    if (url.pathname === '/') {
+    const pathname = decodeURIComponent(url.pathname);
+
+    if (pathname === '/' || pathname === '/index.html') {
+      const htmlPath = path.join(ROOT_DIR, 'index.html');
+      if (fs.existsSync(htmlPath)) {
+        sendFile(res, 200, htmlPath);
+        return;
+      }
+
       sendJson(res, 200, {
         success: true,
         mensaje: 'Servidor Node.js listo para recibir peticiones sobre las rutas PHP equivalentes.'
       });
+      return;
+    }
+
+    if (pathname === '/frontend/index.php' || pathname === '/frontend/pos.php' || pathname === '/frontend/historial_facturas.php') {
+      const htmlPath = path.join(ROOT_DIR, 'index.html');
+      if (fs.existsSync(htmlPath)) {
+        sendFile(res, 200, htmlPath);
+        return;
+      }
+    }
+
+    const candidatePath = path.join(ROOT_DIR, pathname.replace(/^\//, ''));
+    if (fs.existsSync(candidatePath) && fs.statSync(candidatePath).isFile()) {
+      sendFile(res, 200, candidatePath);
       return;
     }
 

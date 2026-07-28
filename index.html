@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palacio - Backend Node.js</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 2rem; background: #f5f7fb; color: #1f2937; }
+    main { max-width: 760px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    code { background: #f3f4f6; padding: 0.2rem 0.4rem; border-radius: 4px; }
+    a { color: #2563eb; text-decoration: none; }
+    .card { margin-top: 1rem; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Palacio - Backend Node.js puro</h1>
+    <p>La aplicación ya está desplegada y responde desde un servidor Node.js sin frameworks ni dependencias externas.</p>
+
+    <div class="card">
+      <h2>Endpoints disponibles</h2>
+      <ul>
+        <li><code>POST /backend/vender_entrada.php</code></li>
+        <li><code>GET /backend/facturas_obtener.php</code></li>
+        <li><code>GET /backend/factura_detalle.php</code></li>
+        <li><code>POST /backend/factura_anular.php</code></li>
+        <li><code>GET /backend/pos_buscar_producto.php</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Prueba rápida</h2>
+      <p>Abre esta ruta para verificar el backend:</p>
+      <p><a href="/backend/pos_buscar_producto.php?q=ENT">/backend/pos_buscar_producto.php?q=ENT</a></p>
+    </div>
+  </main>
+</body>
+</html>
